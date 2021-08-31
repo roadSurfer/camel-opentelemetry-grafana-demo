@@ -23,18 +23,22 @@ public class DispatcherRoute extends RouteBuilder {
         OpenTelemetryTracer ott = new OpenTelemetryTracer();
         ott.init(this.getContext());
 
-        from("direct:dispatcher").routeId("dispatcher-route")
-            .log("incoming request, headers = ${headers}")
-            .log("incoming request, body = ${body}")
-            .to("direct:sayHello");
+        from("activemq:queue:dispatcher").routeId("dispatcher-route")
+                .log("incoming request, headers = ${headers}")
+                .log("incoming request, body = ${body}")
+                .to("activemq:queue:sayHello")
+                .log("incoming response, headers = ${headers}")
+                .log("incoming response, body = ${body}");
 
-        from("direct:sayHello").routeId("sayHello-route")
-            .log("dispatching to /hello endpoint")
-            .setHeader("status", constant("dispatched"))
-            .log("outgoing request, headers = ${headers}")
-            .log("outgoing request, body = ${body}")
-            .toD("undertow:" + serviceProperties.getDownstreamEndpoint() + "?name=${body}")
-            .convertBodyTo(String.class);
+        from("activemq:queue:sayHello").routeId("sayHello-route")
+                .log("dispatching to /hello endpoint")
+                .setHeader("status", constant("dispatched"))
+                .log("outgoing request, headers = ${headers}")
+                .log("outgoing request, body = ${body}")
+                .toD("undertow:" + serviceProperties.getDownstreamEndpoint() + "?name=${body}")
+                .convertBodyTo(String.class)
+                .log("outgoing response, headers = ${headers}")
+                .log("outgoing response, body = ${body}");
     }
 }
 

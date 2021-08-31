@@ -6,6 +6,8 @@ services:
     ports:
       - "61616:61616"
       - "8161:8161"
+    networks:
+      - "tempo-net"
     logging:
       driver: loki
       options:
