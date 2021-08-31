@@ -35,10 +35,10 @@ public class DispatcherRoute extends RouteBuilder {
             .to("direct:sayHello");
 
         from("direct:sayHello").routeId("sayHello-route")
-            .log("outgoing request, headers = ${headers}")
-            .log("outgoing request, body = ${body}")
             .log("dispatching to /hello endpoint")
             .setHeader("status", constant("dispatched"))
+            .log("outgoing request, headers = ${headers}")
+            .log("outgoing request, body = ${body}")
             .toD("undertow:" + serviceProperties.getDownstreamEndpoint() + "?name=${body}")
             .convertBodyTo(String.class);
     }

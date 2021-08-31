@@ -51,7 +51,7 @@ services:
 
   tempo:
     hostname: "tempo"
-    image: grafana/tempo:latest
+    image: grafana/tempo:1.1.0
     networks:
       - "tempo-net"
     volumes:
@@ -60,7 +60,7 @@ services:
 
   loki:
     hostname: "loki"
-    image: grafana/loki:2.2.0
+    image: grafana/loki:2.3.0
     ports:
       - "3100:3100"
     networks:
@@ -69,13 +69,15 @@ services:
 
   grafana:
     hostname: "grafana"
-    image: grafana/grafana:7.5.2
+    image: grafana/grafana:8.1.2
     environment:
       - GF_AUTH_ANONYMOUS_ENABLED=true
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
       - GF_AUTH_DISABLE_LOGIN_FORM=true
     networks:
       - "tempo-net"
+    volumes:
+      - ./config/grafana/provisioning:/etc/grafana/provisioning:ro
     ports:
       - "3000:3000"
 networks:
