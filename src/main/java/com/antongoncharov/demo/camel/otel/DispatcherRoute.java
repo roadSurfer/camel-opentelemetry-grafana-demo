@@ -5,15 +5,11 @@ import org.apache.camel.opentelemetry.OpenTelemetryTracer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.logging.Logger;
-
 /**
  * @author antongoncharov
  */
 @Component
 public class DispatcherRoute extends RouteBuilder {
-    private static final Logger logger = Logger.getLogger(DispatcherRoute.class.getName());
-
     private final ServiceProperties serviceProperties;
 
     @Autowired
@@ -24,17 +20,15 @@ public class DispatcherRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        logger.info("Creating tracer");
         OpenTelemetryTracer ott = new OpenTelemetryTracer();
         ott.init(this.getContext());
-        logger.info("Tracer created");
 
-        from("activemq:queue:dispatcher").routeId("dispatcher-route")
+        from("direct:dispatcher").routeId("dispatcher-route")
             .log("incoming request, headers = ${headers}")
             .log("incoming request, body = ${body}")
-            .to("activemq:queue:sayHello");
+            .to("direct:sayHello");
 
-        from("activemq:queue:sayHello").routeId("sayHello-route")
+        from("direct:sayHello").routeId("sayHello-route")
             .log("dispatching to /hello endpoint")
             .setHeader("status", constant("dispatched"))
             .log("outgoing request, headers = ${headers}")
