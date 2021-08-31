@@ -32,9 +32,9 @@ public class DispatcherRoute extends RouteBuilder {
         from("activemq:queue:dispatcher").routeId("dispatcher-route")
             .log("incoming request, headers = ${headers}")
             .log("incoming request, body = ${body}")
-            .to("direct:sayHello");
+            .to("activemq:queue:sayHello");
 
-        from("direct:sayHello").routeId("sayHello-route")
+        from("activemq:queue:sayHello").routeId("sayHello-route")
             .log("dispatching to /hello endpoint")
             .setHeader("status", constant("dispatched"))
             .log("outgoing request, headers = ${headers}")
