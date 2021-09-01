@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   activemq:
-    image: "gitlab-registry.dev.idoxgroup.local/digital-services/digital-platform/infrastructure/activemq:latest"
+    image: "rmohr/activemq:5.11.1"
     hostname: activemq
     ports:
       - "61616:61616"
