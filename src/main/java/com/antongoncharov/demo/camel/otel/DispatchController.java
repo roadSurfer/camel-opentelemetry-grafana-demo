@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class DispatchController {
-
-    private final ProducerTemplate template;
+   private final ProducerTemplate template;
 
     public DispatchController(ProducerTemplate template) {
         this.template = template;
