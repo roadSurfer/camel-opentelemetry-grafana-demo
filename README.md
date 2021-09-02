@@ -48,27 +48,14 @@ docker build . -t hello-service:1.0.0
 docker-compose run
 ```
 
-5. Open a web browser and navigate to the Grafana dashboard: `http://localhost:3000`. Go to the Configuration->Data Sources menu item.
-
-6. Add new Tempo data source (a storage for traces)
-
-![image / tempo](readme/tempo_setup.png)
-
-7. Add new Loki data source (a storage for logs)
-
-![image / loki](readme/loki_setup.png)
-
-Configure "Derived Field" in Loki Data Source to relate logs with traces
-
-![image / loki / derived field](readme/loki_derived_fields.png)
-
-8. Send a sample request 
+5. Send a sample request 
 
 ```sh
 curl http://localhost:8080/dispatch?name=Ada
 ```
+6. Open a web browser and navigate to the Grafana dashboard: `http://localhost:3000`. Go to the Configuration->Data Sources menu item.
 
-9. Open the "Explore" board in Grafana to browse through the logs in Loki and the traces in Tempo
+7. Open the "Explore" board in Grafana to browse through the logs in Loki and the traces in Tempo
 
 ![image / dashboard](readme/grafana.png)
 
