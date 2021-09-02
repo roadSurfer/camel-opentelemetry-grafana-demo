@@ -24,10 +24,8 @@ public class DispatcherRoute extends RouteBuilder {
     @Override
     public void configure() {
 
-        logger.info("Creating tracer");
         OpenTelemetryTracer ott = new OpenTelemetryTracer();
         ott.init(this.getContext());
-        logger.info("Tracer created");
 
         from("direct:dispatcher").routeId("dispatcher-route")
             .log("incoming request, headers = ${headers}")
@@ -40,7 +38,9 @@ public class DispatcherRoute extends RouteBuilder {
             .log("outgoing request, headers = ${headers}")
             .log("outgoing request, body = ${body}")
             .toD("undertow:" + serviceProperties.getDownstreamEndpoint() + "?name=${body}")
-            .convertBodyTo(String.class);
+            .convertBodyTo(String.class)
+            .log("outgoing response, headers = ${headers}")
+            .log("outgoing response, body = ${body}");
     }
 }
 
