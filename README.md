@@ -2,13 +2,13 @@
 
 ## Introduction
 
-This project is an example app to showcase [`camel-opentelemetry`](https://camel.apache.org/components/3.7.x/others/opentelemetry.html) integration in a Spring Boot app. Apache Camel has added OpenTelemetry support in the 3.5 release. The official documentation doesn't focus on how to set everything up for logs and traces visibility, so the goal of this example is to fill this gap.        
+This project is an example app to showcase [camel-opentelemetry](https://camel.apache.org/components/3.11.x/others/opentelemetry.html) integration in a Spring Boot app. Apache Camel has added OpenTelemetry support in the 3.5 release. The official documentation doesn't focus on how to set everything up for logs and traces visibility, so the goal of this example is to fill this gap.        
 
 [OpenTelemetry](https://opentelemetry.io/) is an open-source project resulted from merging of OpenCensus and OpenTracing. Its purpose is to enable an application's observability by providing a set of standardized data collection tools for capturing and exporting metrics, logs and traces. It's one of the most active CNCF projects these days.
 
 Using [Camel](https://camel.apache.org/) in tandem with OpenTelemetry instrumentation allows us to have distributed tracing across different routes in one or more services, and to link application logs with these traces, which makes it a great alternative to ELK and similar solutions.        
 
-Important note: this example uses Apache Camel 3.10 (the last available version as of June 2021), which depends on OpenTelemetry SDK for Java version 0.15.0. OpenTelemetry specification and its tools develop rapidly, now beyond 1.x release. In the Camel tracker I see the plans to upgrade dependency but today make sure 0.15.0 is used to run this example smoothly.     
+Important note: this example uses Apache Camel 3.11.1 (the last available version as of August 2021), which depends on OpenTelemetry SDK for Java version 1.3.0 (included under the `agent` directory). OpenTelemetry specification and its tools develop rapidly.     
 
 ## Launch 
 
@@ -82,7 +82,7 @@ Both 'hello' services send logs to Loki via [`loki-docker-driver`](https://grafa
 
 [OpenTelemetry instrumentation](https://github.com/open-telemetry/opentelemetry-java-instrumentation) dynamically captures telemetry from a number of popular Java frameworks. To plug it in, add `opentelemetry-javaagent-all.jar` as a javaagent of the JAR application. This preparation is done in the Dockerfile.
 
-For the Camel integration it's important that we use `opentelemetry-javaagent-all.jar` [version 0.15.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/v0.15.x) as [`camel-opentelemetry`](https://camel.apache.org/components/3.7.x/others/opentelemetry.html) depends on this OTel Java SDK release.  
+For the Camel integration it's important that we use `opentelemetry-javaagent-all.jar` [version 1.3.0](https://github.com/open-telemetry/opentelemetry-java-instrumentation/tree/v1.3.x) as [`camel-opentelemetry`](https://camel.apache.org/components/3.7.x/others/opentelemetry.html) depends on this OTel Java SDK release.  
 
 ```dockerfile
 ADD /agent/opentelemetry-javaagent-all.jar /etc/agent/opentelemetry-javaagent-all.jar
